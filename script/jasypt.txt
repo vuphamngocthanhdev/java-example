@@ -1,0 +1,1 @@
+mvn jasypt:encrypt-value "-Djasypt.encryptor.password=thanh"  "-Djasypt.plugin.value=P@ss123456!"
