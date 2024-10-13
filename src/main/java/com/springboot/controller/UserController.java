@@ -3,6 +3,8 @@ package com.springboot.controller;
 import com.springboot.dto.request.UserRequestDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -30,7 +32,7 @@ public class UserController {
 	 */
 	@GetMapping("/{userID}")
 	@Operation(summary = "Get User by ID", description = "Retrieves user information by their ID.")
-	public String get(@PathVariable Long userID){
+	public String get(@Min(1) @PathVariable Long userID){
 		return "User";
 	}
 	/**
@@ -45,7 +47,7 @@ public class UserController {
 	 */
 	@PostMapping
 	@Operation(summary = "Add New User", description = "Adds a new user with the provided details.")
-	public String add(@RequestBody UserRequestDTO userRequestDTO) {
+	public String add(@Valid @RequestBody UserRequestDTO userRequestDTO) {
 		return "User added";
 	}
 
@@ -61,8 +63,8 @@ public class UserController {
 	 */
 	@PutMapping("/{userID}")
 	@Operation(summary = "Update User by ID", description = "Updates an existing user's details using their unique ID.")
-	public String update(@PathVariable int userID
-			,@RequestBody UserRequestDTO userRequestDTO) {
+	public String update(@Min(1) @PathVariable int userID
+			,@Valid @RequestBody UserRequestDTO userRequestDTO) {
 		return "User updated";
 	}
 
@@ -80,7 +82,7 @@ public class UserController {
 	 */
 	@PatchMapping("/{userID}")
 	@Operation(summary = "Update User Status", description = "Updates the status of a user using their unique ID.")
-	public String status(@PathVariable int userID,@RequestParam boolean status) {
+	public String status(@Min(1) @PathVariable int userID,@Min(1)@RequestParam int status) {
 		return "User status changed";
 	}
 
@@ -96,7 +98,7 @@ public class UserController {
 	 */
 	@DeleteMapping("/{userID}")
 	@Operation(summary = "Delete User by ID", description = "Deletes a user using their unique ID.")
-	public String delete(@PathVariable int userID) {
+	public String delete(@Min(1) @PathVariable int userID) {
 		return "User deleted";
 	}
 }
