@@ -1,11 +1,17 @@
 package com.springboot.controller;
 
 import com.springboot.dto.request.UserRequestDTO;
+import com.springboot.dto.response.ResponseData;
+import com.springboot.dto.response.ResponseFailure;
+import com.springboot.dto.response.ResponseSuccess;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * UserController is responsible for handling user-related requests.
@@ -32,8 +38,19 @@ public class UserController {
 	 */
 	@GetMapping("/{userID}")
 	@Operation(summary = "Get User by ID", description = "Retrieves user information by their ID.")
-	public String get(@Min(1) @PathVariable Long userID){
-		return "User";
+	public ResponseSuccess get(@Min(1) @PathVariable Long userID){
+		System.out.println("Request get user detail, userId=" + userID);
+		try {
+			return new ResponseSuccess(HttpStatus.OK, "user",
+					UserRequestDTO.builder()
+							.firstName("thanh")
+							.lastName("vu")
+							.phone("0981700700")
+							.email("vuphamngocthanh.dev@gmail.com")
+							.build());
+		} catch (Exception e) {
+			return new ResponseFailure(HttpStatus.BAD_REQUEST, e.getMessage());
+		}
 	}
 	/**
 	 * Adds a new user with the provided information.
@@ -47,8 +64,17 @@ public class UserController {
 	 */
 	@PostMapping
 	@Operation(summary = "Add New User", description = "Adds a new user with the provided details.")
-	public String add(@Valid @RequestBody UserRequestDTO userRequestDTO) {
-		return "User added";
+	public ResponseSuccess add(@Valid @RequestBody UserRequestDTO userRequestDTO) {
+		try {
+			return new ResponseSuccess(HttpStatus.OK, "User added",
+					UserRequestDTO.builder()
+							.firstName(userRequestDTO.getFirstName())
+							.lastName(userRequestDTO.getLastName())
+							.build()
+			);
+		}catch (Exception e) {
+			return new ResponseFailure(HttpStatus.BAD_REQUEST,e.getMessage());
+		}
 	}
 
 	/**

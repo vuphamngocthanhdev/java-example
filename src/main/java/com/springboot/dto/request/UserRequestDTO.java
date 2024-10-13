@@ -1,8 +1,11 @@
 package com.springboot.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.springboot.util.PhoneNumber;
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -28,34 +31,41 @@ import java.util.List;
  * @author Thanh
  */
 @Getter
+@Builder
 public class UserRequestDTO implements Serializable {
 	// Unique identifier for object serialization.
 	@Serial
 	private static final long serialVersionUID = 8070354336800423708L;
 
 	// First name of the user; cannot be blank.
+	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@NotBlank(message = "firstName must be not blank")
 	private String firstName;
 
 	// Last name of the user; cannot be null.
+	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@NotNull(message = "lastName must be not null")
 	private String lastName;
 
 	// Phone number with custom validation.
 	@PhoneNumber
+	@JsonInclude(JsonInclude.Include.NON_NULL)
 	private String phone;
 
 	// Email address; must be in a valid format.
 	@Email(message = "email invalid format")
+	@JsonInclude(JsonInclude.Include.NON_NULL)
 	private String email;
 
 	// User's date of birth; required and formatted for both JSON and Spring.
 	@JsonFormat(pattern = "MM/dd/yyyy")
+	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
 	@NotNull(message = "dateOfBirth must be not null")
 	private LocalDate dateOfBirth;
 
 	// A list of permissions; must not be empty.
+	@JsonInclude(JsonInclude.Include.NON_NULL)
 	@NotEmpty(message = "permission must be empty")
 	List<String> permission;
 }
