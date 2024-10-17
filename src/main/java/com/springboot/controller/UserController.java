@@ -1,7 +1,7 @@
 package com.springboot.controller;
 
+import com.springboot.configuration.locale.Translator;
 import com.springboot.dto.request.UserRequestDTO;
-import com.springboot.dto.response.ResponseData;
 import com.springboot.dto.response.ResponseFailure;
 import com.springboot.dto.response.ResponseSuccess;
 import io.swagger.v3.oas.annotations.Operation;
@@ -10,8 +10,6 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * UserController is responsible for handling user-related requests.
@@ -66,7 +64,7 @@ public class UserController {
 	@Operation(summary = "Add New User", description = "Adds a new user with the provided details.")
 	public ResponseSuccess add(@Valid @RequestBody UserRequestDTO userRequestDTO) {
 		try {
-			return new ResponseSuccess(HttpStatus.OK, "User added",
+			return new ResponseSuccess(HttpStatus.OK, Translator.toLocale("user.add.success"),
 					UserRequestDTO.builder()
 							.firstName(userRequestDTO.getFirstName())
 							.lastName(userRequestDTO.getLastName())
